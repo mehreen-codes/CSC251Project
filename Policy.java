@@ -1,144 +1,82 @@
+/**
+   the policy class represents an insurance policy and its associated data.
+*/
 public class Policy 
 {
-    // Attributes
     private int policyNumber;
     private String providerName;
     private String policyHolderFirstName;
     private String policyHolderLastName;
-    private int policyHolderAge;
-    private String policyHolderSmokingStatus; // "smoker" or "non-smoker"
-    private double policyHolderHeight; // in inches
-    private double policyHolderWeight; // in pounds
+    private int age;
+    private String smokingStatus;
+    private double height; 
+    private double weight;
 
-    // No-arg constructor
-    public Policy() 
-    {
-        policyNumber = 0;
-        providerName = "";
-        policyHolderFirstName = "";
-        policyHolderLastName = "";
-        policyHolderAge = 0;
-        policyHolderSmokingStatus = "non-smoker";
-        policyHolderHeight = 0.0;
-        policyHolderWeight = 0.0;
-    }
-
-    // Full-arg constructor
-    public Policy(int policyNumber, String providerName,
-                  String firstName, String lastName, int age,
-                  String smokingStatus, double height, double weight) 
+    /**
+     constructs a Policy object with the provided values.
+     @param policyNumber policy number.
+     @param providerName insurance provider.
+     @param policyHolderFirstName first name of policyholder.
+     @param policyHolderLastName last name of policyholder.
+     @param age age of policyholder.
+     @param smokingStatus smoking status ("smoker" or "non-smoker").
+     @param height height of policyholder in inches.
+     @param weight weight of policyholder in pounds.
+     */
+    public Policy(int policyNumber, String providerName, String policyHolderFirstName, String policyHolderLastName,
+                  int age, String smokingStatus, double height, double weight) 
     {
         this.policyNumber = policyNumber;
         this.providerName = providerName;
-        this.policyHolderFirstName = firstName;
-        this.policyHolderLastName = lastName;
-        this.policyHolderAge = age;
-        this.policyHolderSmokingStatus = smokingStatus.toLowerCase();
-        this.policyHolderHeight = height;
-        this.policyHolderWeight = weight;
+        this.policyHolderFirstName = policyHolderFirstName;
+        this.policyHolderLastName = policyHolderLastName;
+        this.age = age;
+        this.smokingStatus = smokingStatus;
+        this.height = height;
+        this.weight = weight;
     }
 
-    // Getters and Setters
-    public int getPolicyNumber() 
+    // @return policy number
+    public int getPolicyNumber() { return policyNumber; }
+
+    // @return provider name
+    public String getProviderName() { return providerName; }
+
+    // @return policyholder's first name
+    public String getPolicyHolderFirstName() { return policyHolderFirstName; }
+
+    // @return policyholder's last name
+    public String getPolicyHolderLastName() { return policyHolderLastName; }
+
+    // @return policyholder's age
+    public int getAge() { return age; }
+
+    // @return policyholder's smoking status
+    public String getSmokingStatus() { return smokingStatus; }
+
+    // @return policyholder's height in inches
+    public double getHeight() { return height; }
+
+    // @return policyholder's weight in pounds
+    public double getWeight() { return weight; }
+
+    /**
+     calculate the BMI
+    */
+    public double getBMI() 
     {
-      return policyNumber; 
-    }
-    public void setPolicyNumber(int policyNumber) 
-    {
-      this.policyNumber = policyNumber;
+        return (weight * 703) / (height * height);
     }
 
-    public String getProviderName() 
+    /**
+    calculates and return the price of the policy
+    */
+    public double getPolicyPrice() 
     {
-      return providerName;
-    }
-    public void setProviderName(String providerName)
-    {
-      this.providerName = providerName;
-    }
-
-    public String getPolicyHolderFirstName()
-    {
-      return policyHolderFirstName;
-    }
-    public void setPolicyHolderFirstName(String firstName)
-    {
-      this.policyHolderFirstName = firstName;
-    }
-
-    public String getPolicyHolderLastName()
-    {
-      return policyHolderLastName;
-    }
-    public void setPolicyHolderLastName(String lastName) 
-    {
-      this.policyHolderLastName = lastName;
-    }
-
-    public int getPolicyHolderAge() 
-    {
-      return policyHolderAge;
-    }
-    public void setPolicyHolderAge(int age) 
-    {
-      this.policyHolderAge = age;
-    }
-
-    public String getPolicyHolderSmokingStatus() 
-    {
-      return policyHolderSmokingStatus;
-    }
-    public void setPolicyHolderSmokingStatus(String smokingStatus) 
-    {
-      this.policyHolderSmokingStatus = smokingStatus.toLowerCase();
-    }
-
-    public double getPolicyHolderHeight()
-    {
-      return policyHolderHeight;
-    }
-    public void setPolicyHolderHeight(double height) 
-    {
-      this.policyHolderHeight = height;
-    }
-
-    public double getPolicyHolderWeight()
-    {
-      return policyHolderWeight;
-    }
-    public void setPolicyHolderWeight(double weight) 
-    {
-      this.policyHolderWeight = weight;
-    }
-
-    // Calculate BMI
-    public double calculateBMI() 
-    {
-        if (policyHolderHeight == 0) return 0;
-        return (policyHolderWeight * 703) / (policyHolderHeight * policyHolderHeight);
-    }
-
-    // Calculate Policy Price
-    public double calculatePolicyPrice() 
-    {
-        double price = 600.0;
-
-        if (policyHolderAge > 50) 
-        {
-            price += 75.0;
-        }
-
-        if (policyHolderSmokingStatus.equals("smoker")) 
-        {
-            price += 100.0;
-        }
-
-        double bmi = calculateBMI();
-        if (bmi > 35) 
-        {
-            price += (bmi - 35) * 20;
-        }
-
-        return price;
+        double basePrice = 600.0;
+        if (age > 50) basePrice += 75.0;
+        if (smokingStatus.equalsIgnoreCase("smoker")) basePrice += 100.0;
+        if (getBMI() > 35) basePrice += (getBMI() - 35) * 20;
+        return basePrice;
     }
 }
